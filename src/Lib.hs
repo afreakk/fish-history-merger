@@ -34,10 +34,10 @@ extractEntryFromStr ('\n':'-':' ':'c':'m':'d':':':' ':xs) b =
     extractEntryFromStr rest (entry:b)
 
 untilNextCmd :: String -> String -> (String, String)
-untilNextCmd "" b = ("", b)
+untilNextCmd "" b = ("", reverse b)
 untilNextCmd o@(x:xs) b
-  | isPrefixOf "\n- cmd: " o = (o, b)
-  | otherwise                = untilNextCmd xs (b ++ [x])
+  | isPrefixOf "\n- cmd: " o = (o, reverse b)
+  | otherwise                = untilNextCmd xs (x:b)
 
 strToEntry :: [String] -> Entry -> Entry
 strToEntry (('-':' ':'c':'m':'d':        ':':' ':xcmd ):restOfLines) b = strToEntry restOfLines (b {cmd=xcmd         })

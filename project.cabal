@@ -29,6 +29,7 @@ executable fish-history-merger
   build-depends:
       base >=4.7 && <5
     , fish-history-merger
+    , containers
   default-language: Haskell2010
 
 test-suite fish-history-merger-test
