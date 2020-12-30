@@ -4,15 +4,13 @@ module Lib
     , Entry (..)
     ) where
 import Data.List
-import Control.DeepSeq
-import Control.Exception (evaluate)
 
 
 data Entry = Entry
     { cmd :: String
     , when :: Int
     , paths :: [String]
-    } deriving (Eq)
+    }
   
 instance Show Entry where
     show (Entry {cmd=cc, when=w, paths=p}) =
