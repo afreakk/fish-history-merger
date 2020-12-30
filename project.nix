@@ -1,4 +1,4 @@
-{ mkDerivation, base, deepseq, stdenv }:
+{ mkDerivation, base, containers, deepseq, stdenv }:
 mkDerivation {
   pname = "fish-history-merger";
   version = "0.1.0";
@@ -6,7 +6,7 @@ mkDerivation {
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [ base deepseq ];
-  executableHaskellDepends = [ base ];
+  executableHaskellDepends = [ base containers ];
   testHaskellDepends = [ base ];
   license = stdenv.lib.licenses.bsd3;
 }
