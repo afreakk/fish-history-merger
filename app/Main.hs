@@ -5,11 +5,14 @@ import System.IO
 import System.Environment
 import Data.List
 import Data.Containers.ListUtils
+import Data.Functor
+import Control.Arrow
 
-entryToUnique entry = cmd entry ++ "- paths: " ++ concat (paths entry)
+entryToUnique :: Entry -> String
+entryToUnique entry = cmd entry ++ "- paths: " ++ paths entry
+
+readNdecode :: String -> IO [Entry]
+readNdecode a = (readFile a) <&> decodeFishHistory
 
 main :: IO ()
-main = do 
-    a <- getArgs
-    histories <- mapM (\x -> fmap decodeFishHistory (readFile x)) a
-    putStr $ encodeFishHistory $ reverse $ nubOrdOn entryToUnique $ sortOn when $ concat histories
+main = getArgs >>= mapM readNdecode <&> (concat >>> sortOn when >>> nubOrdOn entryToUnique >>> encodeFishHistory) >>= putStr
