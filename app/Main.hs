@@ -8,11 +8,11 @@ import Data.Containers.ListUtils
 import Data.Functor
 import Control.Arrow
 
-entryToUnique :: Entry -> String
-entryToUnique entry = cmd entry ++ "- paths: " ++ paths entry
+entryCompare :: Entry -> String
+entryCompare entry = cmd entry ++ "\n- paths:\n" ++ paths entry
 
 readNdecode :: String -> IO [Entry]
 readNdecode a = (readFile a) <&> decodeFishHistory
 
 main :: IO ()
-main = getArgs >>= mapM readNdecode <&> (concat >>> sortOn when >>> nubOrdOn entryToUnique >>> encodeFishHistory) >>= putStr
+main = getArgs >>= mapM readNdecode <&> (concat >>> sortOn when >>> nubOrdOn entryCompare >>> encodeFishHistory) >>= putStr

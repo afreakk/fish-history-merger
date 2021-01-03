@@ -26,16 +26,16 @@ decodeFishHistory :: String -> [Entry]
 decodeFishHistory contents = extractEntryFromStr ('\n':contents) []
 
 encodeFishHistory :: [Entry] -> String
-encodeFishHistory str = foldr (\x y -> show x ++ y) "" str
+encodeFishHistory = foldr (\x y -> show x ++ y) ""
 
 extractEntryFromStr :: String -> [Entry] -> [Entry]
-extractEntryFromStr ""                                    b = b
 extractEntryFromStr ('\n':'-':' ':'c':'m':'d':':':' ':xs) b =
     let
         (rest, thisCmd) = untilNextCmd xs ""
-        entry = strToEntry (lines ("- cmd: " ++ thisCmd)) emptyEntry
+        entry = strToEntry (lines thisCmd) emptyEntry
     in
     extractEntryFromStr rest (entry:b)
+extractEntryFromStr ""                                    b = b
 
 untilNextCmd :: String -> String -> (String, String)
 untilNextCmd "" b = ("", reverse b)
@@ -44,9 +44,9 @@ untilNextCmd o@(x:xs) b
   | otherwise                = untilNextCmd xs (x:b)
 
 strToEntry :: [String] -> Entry -> Entry
-strToEntry (('-':' ':'c':'m':'d':        ':':' ':xcmd ):restOfLines) b = strToEntry restOfLines (b {cmd=xcmd                 })
 strToEntry ((' ':' ':'w':'h':'e':'n':    ':':' ':xwhen):restOfLines) b = strToEntry restOfLines (b {when=read xwhen          })
 strToEntry ((' ':' ':'p':'a':'t':'h':'s':':':[]):restOfLines)        b = strToEntry []          (b {paths=unlines restOfLines})
+strToEntry (xcmd:restOfLines)                                        b = strToEntry restOfLines (b {cmd=xcmd                 })
 strToEntry []                                                        b = b
 
 
