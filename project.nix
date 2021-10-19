@@ -1,8 +1,8 @@
-{ mkDerivation, base, containers, stdenv, lib }:
+{ mkDerivation, base, containers, stdenv, lib, pkgs}:
 mkDerivation {
   pname = "fish-history-merger";
   version = "0.1.0";
-  src = ./.;
+  src = pkgs.nix-gitignore.gitignoreSource [".git/" "*.nix"] ./.;
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [ base ];
