@@ -1,4 +1,4 @@
-{ mkDerivation, base, containers, stdenv }:
+{ mkDerivation, base, containers, stdenv, lib }:
 mkDerivation {
   pname = "fish-history-merger";
   version = "0.1.0";
@@ -8,5 +8,5 @@ mkDerivation {
   libraryHaskellDepends = [ base ];
   executableHaskellDepends = [ base containers ];
   testHaskellDepends = [ base ];
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }
